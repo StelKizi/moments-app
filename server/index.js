@@ -7,9 +7,11 @@ const app = express();
 app.use(express.json({ limit: '30mb', extended: true }));
 app.use(express.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
+import dotenv from 'dotenv';
 
-const CONNECTION_URL =
-  'mongodb+srv://stella-admin:rrMjWMGUdtF0xGZi@cluster0.wkvqh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+dotenv.config();
+
+const { CONNECTION_URL } = process.env;
 const PORT = process.env.PORT || 5000;
 
 mongoose
@@ -24,5 +26,10 @@ mongoose.set('useFindAndModify', false);
 
 /* Utilize the routes */
 app.use('/posts', routes);
+
+/* Greeting */
+app.get('/', (req, res) => {
+  res.send('Welcome to memories API');
+});
 
 app.listen(PORT, () => console.log('Server running on port ', PORT));
