@@ -9,12 +9,12 @@ import {
   TextField,
 } from '@material-ui/core';
 import InputField from './InputField';
-import LockOutlinedIcon from '@material-ui/icons/AcUnitOutlined';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
 
 const Auth = () => {
   const classes = useStyles();
-  const signUp = false;
+  const [isSignUp, setisSignUp] = useState(false);
   const [displayPassword, setDisplayPassword] = useState(false);
 
   const handleDisplayPassword = () => {
@@ -24,16 +24,21 @@ const Auth = () => {
 
   const handleChange = () => {};
 
+  const handleSwitchMode = () => {
+    setisSignUp(prevIsSignUp => !prevIsSignUp);
+    handleDisplayPassword(false);
+  };
+
   return (
     <Container component='main' maxWidth='xs'>
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography variant='h5'>{signUp ? 'Sign Up' : 'Login'}</Typography>
+        <Typography variant='h5'>{isSignUp ? 'Sign Up' : 'Log In'}</Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            {signUp && (
+            {isSignUp && (
               <>
                 <InputField
                   name='firstName'
@@ -63,6 +68,32 @@ const Auth = () => {
               type={displayPassword ? 'text' : 'password'}
               handleDisplayPassword={handleDisplayPassword}
             />
+            {isSignUp && (
+              <InputField
+                name='confirmPassword'
+                type='password'
+                label='Repeat Password'
+                handleChange={handleChange}
+              />
+            )}
+          </Grid>
+          <Button
+            type='submit'
+            fullWidth
+            variant='contained'
+            color='primary'
+            className={classes.submit}
+          >
+            {!isSignUp ? 'Log In' : 'Sign Up'}
+          </Button>
+          <Grid container justify='flex-end'>
+            <Grid item>
+              <Button onClick={handleSwitchMode}>
+                {isSignUp
+                  ? 'Already have an account? Log In'
+                  : "Don't have and account? Sign Up"}
+              </Button>
+            </Grid>
           </Grid>
         </form>
       </Paper>
