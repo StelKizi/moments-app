@@ -28,8 +28,8 @@ mongoose.set('useFindAndModify', false);
 app.use('/posts', routes);
 
 /* Greeting */
-app.get('/', (req, res) => {
+/* app.get('/', (req, res) => {
   res.send('Welcome to memories API');
 });
-
+ */
 app.listen(PORT, () => console.log('Server running on port ', PORT));
