@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import routes from './routes/posts.js';
+import postRoutes from './routes/posts.js';
+import userRoutes from './routes/users.js';
 
 const app = express();
 app.use(express.json({ limit: '30mb', extended: true }));
@@ -25,7 +26,8 @@ mongoose
 mongoose.set('useFindAndModify', false);
 
 /* Utilize the routes */
-app.use('/posts', routes);
+app.use('/posts', postRoutes);
+app.use('/user', userRoutes);
 
 /* Greeting */
 /* app.get('/', (req, res) => {

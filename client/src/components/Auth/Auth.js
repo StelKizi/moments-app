@@ -12,22 +12,42 @@ import Icon from './Icon';
 import { GoogleLogin } from 'react-google-login';
 import InputField from './InputField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import useStyles from './styles';
 import { useHistory } from 'react-router';
+import useStyles from './styles';
+import { signUp, signIn } from '../../redux/actions/auth';
+
+const initialFormData = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+};
 
 const Auth = () => {
   const classes = useStyles();
   const [isSignUp, setisSignUp] = useState(false);
   const [displayPassword, setDisplayPassword] = useState(false);
+  const [formData, setFormData] = useState(initialFormData);
   const dispatch = useDispatch();
   const history = useHistory();
 
   const handleDisplayPassword = () => {
     setDisplayPassword(prevDisplayPassword => !prevDisplayPassword);
   };
-  const handleSubmit = () => {};
+  const handleSubmit = e => {
+    e.preventDefault();
 
-  const handleChange = () => {};
+    if (isSignUp) {
+      dispatch(signUp(formData, history));
+    } else {
+      dispatch(signIn(formData, history));
+    }
+  };
+
+  const handleChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSwitchMode = () => {
     setisSignUp(prevIsSignUp => !prevIsSignUp);
