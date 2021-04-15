@@ -29,9 +29,4 @@ mongoose.set('useFindAndModify', false);
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
 
-/* Greeting */
-/* app.get('/', (req, res) => {
-  res.send('Welcome to memories API');
-});
- */
 app.listen(PORT, () => console.log('Server running on port ', PORT));

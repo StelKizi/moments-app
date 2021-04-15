@@ -12,7 +12,7 @@ import Icon from './Icon';
 import { GoogleLogin } from 'react-google-login';
 import InputField from './InputField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import { signUp, signIn } from '../../redux/actions/auth';
 
@@ -35,6 +35,7 @@ const Auth = () => {
   const handleDisplayPassword = () => {
     setDisplayPassword(prevDisplayPassword => !prevDisplayPassword);
   };
+
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -51,7 +52,7 @@ const Auth = () => {
 
   const handleSwitchMode = () => {
     setisSignUp(prevIsSignUp => !prevIsSignUp);
-    handleDisplayPassword(false);
+    setDisplayPassword(false);
   };
 
   const googleLoginRenderProps = renderProps => {
