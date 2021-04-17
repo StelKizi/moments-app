@@ -4,7 +4,7 @@ import {
   UPDATE_POST,
   DELETE_POST,
 } from '../constants/actionTypes';
-import * as api from '../../api';
+import * as api from '../../api/index.js';
 
 export const getPosts = () => async dispatch => {
   try {

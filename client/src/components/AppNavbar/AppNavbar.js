@@ -47,12 +47,12 @@ const AppNavbar = () => {
         />
       </div>
       <Toolbar className={classes.toolbar}>
-        {user ? (
+        {user?.result ? (
           <div className={classes.profile}>
             <Avatar
               className={classes.purple}
-              src={user?.result.imageUrl.url}
               alt={user?.result.name}
+              src={user?.result.imageUrl}
             >
               {user.result.name.charAt(0)}
             </Avatar>

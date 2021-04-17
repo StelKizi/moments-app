@@ -52,10 +52,12 @@ export const deletePost = async (req, res) => {
 };
 
 export const likePost = async (req, res) => {
-  const { id: _id } = req.params;
+  const { id } = req.params;
   const post = await PostMessage.findById(_id);
 
-  if (!req.userId) return res.json({ message: 'User not authenticated' });
+  if (!req.userId) {
+    return res.json({ message: 'User not authenticated' });
+  }
 
   if (!mongoose.isValidObjectId(_id)) {
     return res.status(404).send('No post found with this id');
@@ -63,14 +65,14 @@ export const likePost = async (req, res) => {
 
   const index = post.likes.findIndex(id => id === String(req.userId));
 
-  /* If the user's id is already in the likes, turn this into a dislike */
+  /* If the user's id is already in the like section, turn this into a dislike */
   if (index === -1) {
     post.likes.push(req.userId);
   } else {
     post.likes = post.likes.filter(id => id !== String(req.userId));
   }
 
-  const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
     new: true,
   });
 

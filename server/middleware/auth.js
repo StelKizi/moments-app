@@ -13,8 +13,8 @@ const auth = async (req, res, next) => {
       /* If Google OAuth token */
       decodedData = jwt.decode(token);
       req.userId = decodedData?.sub;
-      next();
     }
+    next();
   } catch (error) {
     console.log(error);
   }
