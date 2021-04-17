@@ -9,12 +9,13 @@ const Form = ({ setCurrentId, currentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [postData, setPostData] = useState({
-    author: '',
     title: '',
     message: '',
     tags: '',
     selectedFile: '',
   });
+  const user = JSON.parse(localStorage.getItem('profile'));
+
   const postToUpdate = useSelector(state =>
     currentId ? state.posts.find(item => item._id === currentId) : null
   );
@@ -25,13 +26,15 @@ const Form = ({ setCurrentId, currentId }) => {
     }
   }, [postToUpdate]);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    if (currentId) {
-      dispatch(updatePost(currentId, postData));
+    if (currentId === 0) {
+      dispatch(createPost({ ...postData, name: user?.reault?.name }));
     } else {
-      dispatch(createPost(postData));
+      dispatch(
+        updatePost(currentId, { ...postData, name: user?.reault?.name })
+      );
     }
 
     handleClear();
@@ -40,7 +43,6 @@ const Form = ({ setCurrentId, currentId }) => {
   const handleClear = () => {
     setCurrentId(null);
     setPostData({
-      author: '',
       title: '',
       message: '',
       tags: '',
@@ -48,10 +50,15 @@ const Form = ({ setCurrentId, currentId }) => {
     });
   };
 
-  /*   const handleUpdateTextfield = (e,{value}) => ({
-    ...postData,
-    value: e.target.value,
-  }); */
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography>
+          Sign in to post about your moments and like others' posts.
+        </Typography>
+      </Paper>
+    );
+  }
 
   return (
     <Paper className={classes.paper}>
@@ -64,14 +71,6 @@ const Form = ({ setCurrentId, currentId }) => {
         <Typography variant='h6'>
           {!currentId ? 'Posting about' : 'Editing'} a special moment✨
         </Typography>
-        <TextField
-          name='author'
-          variant='outlined'
-          label='Author'
-          fullWidth
-          value={postData.author}
-          onChange={e => setPostData({ ...postData, author: e.target.value })}
-        />
         <TextField
           name='title'
           variant='outlined'
