@@ -117,6 +117,7 @@ const Auth = () => {
             <InputField
               name='email'
               label='Email Address'
+              autoComplete='on'
               handleChange={handleChange}
               type='email'
             />
