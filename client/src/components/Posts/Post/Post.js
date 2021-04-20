@@ -9,41 +9,44 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
-import { ThumbUpAlt, MoreHoriz } from '@material-ui/icons';
+import { MoreHoriz } from '@material-ui/icons';
 import Filled from '@material-ui/icons/Delete';
 import moment from 'moment';
+import Likes from '../../Likes/Likes';
 import useStyles from './styles';
+import postAltImage from '../../../images/postAltImage.png';
 
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const user = JSON.parse(localStorage.getItem('profile'));
 
   return (
     <Card className={classes.card}>
       <CardMedia
         className={classes.media}
-        image={post.selectedFile}
+        image={post.selectedFile || postAltImage}
         title={post.title}
       />
       <div className={classes.overlay}>
-        <Typography variant='h6'>
-          {post.name}
-          {console.log(post)}
-        </Typography>
+        <Typography variant='h6'>{post.name}</Typography>
         <Typography variant='body2'>
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      {/* Edit button */}
-      <div className={classes.overlay2}>
-        <Button
-          style={{ color: 'white' }}
-          size='small'
-          onClick={() => setCurrentId(post._id)}
-        >
-          <MoreHoriz fonsize='default' />
-        </Button>
-      </div>
+      {/* Edit icon displayed only if the creator of the post is logged in */}
+      {(user?.result.googleId === post?.author ||
+        user?.result._id === post?.author) && (
+        <div className={classes.overlay2}>
+          <Button
+            style={{ color: 'white' }}
+            size='small'
+            onClick={() => setCurrentId(post._id)}
+          >
+            <MoreHoriz fonsize='default' />
+          </Button>
+        </div>
+      )}
       <div className={classes.details}>
         <Typography variant='body2' color='textSecondary'>
           {post.tags.map(tag => `#${tag} `)}
@@ -61,20 +64,23 @@ const Post = ({ post, setCurrentId }) => {
         <Button
           size='small'
           color='primary'
+          disabled={!user?.result}
           onClick={() => dispatch(likePost(post._id))}
         >
-          <ThumbUpAlt fonsize='small' />
-          &#160; Like &#160;
-          {post.likeCount}
+          <Likes post={post} />
         </Button>
-        <Button
-          size='small'
-          color='primary'
-          onClick={() => dispatch(deletePost(post._id))}
-        >
-          <Filled fonsize='small' />
-          Delete
-        </Button>
+        {/* Delete icon displayed only if the creator of the post is logged in */}
+        {(user?.result.googleId === post?.author ||
+          user?.result._id === post?.author) && (
+          <Button
+            size='small'
+            color='primary'
+            onClick={() => dispatch(deletePost(post._id))}
+          >
+            <Filled fonsize='small' />
+            Delete
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

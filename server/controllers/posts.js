@@ -50,20 +50,19 @@ export const deletePost = async (req, res) => {
   }
 
   await PostMessage.findByIdAndRemove(id);
-  console.log('let the delete commence');
 
   res.json({ message: 'Post deleted successfully' });
 };
 
 export const likePost = async (req, res) => {
   const { id } = req.params;
-  const post = await PostMessage.findById(_id);
+  const post = await PostMessage.findById(id);
 
   if (!req.userId) {
     return res.json({ message: 'User not authenticated' });
   }
 
-  if (!mongoose.isValidObjectId(_id)) {
+  if (!mongoose.isValidObjectId(id)) {
     return res.status(404).send('No post found with this id');
   }
 
