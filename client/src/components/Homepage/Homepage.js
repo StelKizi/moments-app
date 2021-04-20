@@ -8,7 +8,7 @@ import useStyles from '../../styles';
 
 const Homepage = () => {
   const classes = useStyles();
-  const [currentId, setCurrentId] = useState(null);
+  const [currentId, setCurrentId] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -17,7 +17,7 @@ const Form = ({ setCurrentId, currentId }) => {
   const user = JSON.parse(localStorage.getItem('profile'));
 
   const postToUpdate = useSelector(state =>
-    currentId ? state.posts.find(item => item._id === currentId) : null
+    currentId ? state.posts.find(item => item._id === currentId) : 0
   );
 
   useEffect(() => {
@@ -31,17 +31,17 @@ const Form = ({ setCurrentId, currentId }) => {
 
     if (currentId === 0) {
       dispatch(createPost({ ...postData, name: user?.reault?.name }));
+      handleClear();
     } else {
       dispatch(
         updatePost(currentId, { ...postData, name: user?.reault?.name })
       );
+      handleClear();
     }
-
-    handleClear();
   };
 
   const handleClear = () => {
-    setCurrentId(null);
+    setCurrentId(0);
     setPostData({
       title: '',
       message: '',
@@ -53,7 +53,7 @@ const Form = ({ setCurrentId, currentId }) => {
   if (!user?.result?.name) {
     return (
       <Paper className={classes.paper}>
-        <Typography>
+        <Typography variant='h6' align='center'>
           Sign in to post about your moments and like others' posts.
         </Typography>
       </Paper>
