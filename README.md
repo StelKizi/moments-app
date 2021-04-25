@@ -2,6 +2,8 @@
 A simple social media app where the users can post about noteworthy moments in their lives.
 Check out the project here: [Moments App](https://moments-mern-app.netlify.app/)
 
+Note: As long as there are no available posts, the loading icon will be rendered.
+
 ## Technologies that were used for this project:
 - React
 - Redux
