@@ -1,6 +1,6 @@
 # moments-app
 A simple social media app where the users can post about noteworthy moments in their lives.
-Check out the project here 👉 [Moments App](https://moments-mern-app.netlify.app/)
+Check out the project here: [Moments App](https://moments-mern-app.netlify.app/)
 
 ## Technologies that were used for this project:
 - React
